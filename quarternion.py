@@ -33,25 +33,7 @@ class Quarternion():
 	def conj(self):
 		return Quarternion(self.z, -self.i, -self.j, -self.k)
 
-# TODO: Improve code quality here
-def get_distinguished_set(p):
-	Sp = []
-	for i in range(-p, p):
-		for j in range(-p, p):
-			for k in range(-p, p):
-				for l in range(-p, p):
-					if i ** 2 + j ** 2 + k ** 2 + l ** 2 == p:
-						if i % 2 == 1 and j % 2 == 0 and k % 2 == 0 and l % 2 == 0 and i > 0:
-							Sp.append(Quarternion(i, j, k, l))
-						elif i % 2 == 0 and j % 2 == 1 and k % 2 == 1 and l % 2 == 1:
-							if i != 0:
-								Sp.append(Quarternion(i, j, k, l))
-							elif (j != 0 and j > 0) or (k != 0 and k > 0) or (l != 0 and l > 0):
-								Sp.append(Quarternion(i, j, k, l)) 
-	return Sp
-
 def FiniteFieldQuarternion(FiniteField):
-
 	if hasattr(FiniteField, 'primeSubfield'):
 		primeSubfield = FiniteField.primeSubfield
 	else:
@@ -78,3 +60,40 @@ def FiniteFieldQuarternion(FiniteField):
 				[-self.i * y - self.j + self.k * x, self.z - self.i * x - self.k * y]], dtype = FiniteField)
 
 	return FFQ
+
+# TODO: Improve code quality here
+def get_distinguished_set(p):
+	Sp = []
+	for i in range(0, p):
+		for j in range(-p, p):
+			for k in range(-p, p):
+				for l in range(-p, p):
+					if i ** 2 + j ** 2 + k ** 2 + l ** 2 == p:
+						if i % 2 == 1 and j % 2 == 0 and k % 2 == 0 and l % 2 == 0 and i > 0:
+							Sp.append(Quarternion(i, j, k, l))
+						elif i % 2 == 0 and j % 2 == 1 and k % 2 == 1 and l % 2 == 1:
+							if i != 0:
+								Sp.append(Quarternion(i, j, k, l))
+							elif (j != 0 and j > 0) or (k != 0 and k > 0) or (l != 0 and l > 0):
+								Sp.append(Quarternion(i, j, k, l)) 
+	return Sp
+
+def get_spq(p, q):
+	Sp = get_distinguished_set(p)
+	Fq = FiniteField(q,1)
+	FFQq = FiniteFieldQuarternion(Fq)
+	Spq = []
+	print len(Sp)
+	for quar in Sp:
+		Spq.append(FFQq.convert_to_ffq(quar).to_matrix())
+	return Spq
+
+def get_gl2p(p):
+	gl2p = []
+	for i in range(p):
+		for j in range(p):
+			for k in range(p):
+				for l in range(p):
+					if i * l - k * j != 0:
+						gl2p.append(numpy.matrix([[i, j], [k,l]]))
+	return gl2p

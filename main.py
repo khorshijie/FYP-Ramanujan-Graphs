@@ -16,9 +16,14 @@ def main():
 	FFQ5 = FiniteFieldQuarternion(F5)
 	y = FFQ5(F5(1), F5(2), F5(3), F5(4))
 	print y.to_matrix()
-	sp = get_distinguished_set(5)
+	sp = get_distinguished_set(7)
 	for i in sp:
 		print i
+	spq = get_spq(5,3)
+	for i in spq:
+		print i
+	gl2p = get_gl2p(3)
+	
 
 if __name__ == '__main__':
 	main()
