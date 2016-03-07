@@ -2,6 +2,7 @@ from quarternion import *
 # Finite field library obtained from Jeremy Kun's blog
 # https://github.com/j2kun/finite-fields
 from finitefield.finitefield import *
+from sets import Set
 import numpy
 
 def main():
@@ -27,15 +28,14 @@ def main():
 	units.append(Quarternion(0,0,0,1))
 	units.append(Quarternion(0,0,0,-1))
 
-	for i in sp:
-		for j in units:
-			q = i * j
-			print "&(%d, %d, %d, %d)\\\\" % (q.z, q.i, q.j, q.k)
-	spq = get_spq(5,3)
-	for i in spq:
-		print i
 	gl2p = get_gl2p(3)
-	
+	for mat in gl2p:
+		print mat
+	print len(gl2p)
+
+	s53 = get_spq(5, 3)
+	for q in s53:
+		print q
 
 if __name__ == '__main__':
 	main()

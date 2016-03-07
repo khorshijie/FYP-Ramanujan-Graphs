@@ -83,17 +83,20 @@ def get_spq(p, q):
 	Fq = FiniteField(q,1)
 	FFQq = FiniteFieldQuarternion(Fq)
 	Spq = []
-	print len(Sp)
 	for quar in Sp:
 		Spq.append(FFQq.convert_to_ffq(quar).to_matrix())
 	return Spq
 
 def get_gl2p(p):
 	gl2p = []
+	FFp = FiniteField(p)
 	for i in range(p):
 		for j in range(p):
 			for k in range(p):
 				for l in range(p):
-					if i * l - k * j != 0:
-						gl2p.append(numpy.matrix([[i, j], [k,l]]))
+					if (i * l - k * j) % p != 0:
+						gl2p.append(numpy.matrix([[FFp(i), FFp(j)], [FFp(k),FFp(l)]]))
 	return gl2p
+
+def drawXpq(p,q):
+	

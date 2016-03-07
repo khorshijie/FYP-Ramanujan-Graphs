@@ -48,7 +48,7 @@ def generateIrreduciblePolynomial(modulus, degree):
 
 # create a type constructor for the finite field of order p^m for p prime, m >= 1
 @memoize
-def FiniteField(p, m, polynomialModulus=None):
+def FiniteField(p, m=1, polynomialModulus=None):
    Zp = IntegersModP(p)
    if m == 1:
       return Zp
