@@ -16,9 +16,21 @@ def main():
 	FFQ5 = FiniteFieldQuarternion(F5)
 	y = FFQ5(F5(1), F5(2), F5(3), F5(4))
 	print y.to_matrix()
-	sp = get_distinguished_set(7)
+	sp = get_distinguished_set(5)
+	units = []
+	units.append(Quarternion(1,0,0,0))
+	units.append(Quarternion(-1,0,0,0))
+	units.append(Quarternion(0,1,0,0))
+	units.append(Quarternion(0,-1,0,0))
+	units.append(Quarternion(0,0,1,0))
+	units.append(Quarternion(0,0,-1,0))
+	units.append(Quarternion(0,0,0,1))
+	units.append(Quarternion(0,0,0,-1))
+
 	for i in sp:
-		print i
+		for j in units:
+			q = i * j
+			print "&(%d, %d, %d, %d)\\\\" % (q.z, q.i, q.j, q.k)
 	spq = get_spq(5,3)
 	for i in spq:
 		print i

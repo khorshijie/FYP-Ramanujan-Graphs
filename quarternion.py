@@ -24,7 +24,7 @@ class Quarternion():
 		z = self.z * other.z - self.i * other.i - self.j * other.j - self.k * other.k
 		i = self.i * other.z + self.z * other.i + self.j * other.k - self.k * other.j
 		j = self.z * other.j + self.j * other.z - self.i * other.k + self.k * other.i
-		k = self.z * other.k + self.k * other.z + self.i * other.j - self.j * other.k 
+		k = self.z * other.k + self.k * other.z + self.i * other.j - self.j * other.i
 		return Quarternion(z, i, j, k)
 
 	def __eq__(self, other):
