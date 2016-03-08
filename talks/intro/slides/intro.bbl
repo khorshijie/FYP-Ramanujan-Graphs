@@ -1,0 +1,34 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{HLW06}
+
+\bibitem[DSV03]{davidoff2003elementary}
+G.~Davidoff, P.~Sarnak, and A.~Valette, \emph{Elementary number theory, group
+  theory and ramanujan graphs}, Elementary Number Theory, Group Theory, and
+  Ramanujan Graphs, Cambridge University Press, 2003.
+
+\bibitem[HLW06]{Hoory06expandergraphs}
+Shlomo Hoory, Nathan Linial, and Avi Wigderson, \emph{Expander graphs and their
+  applications}, BULL. AMER. MATH. SOC. \textbf{43} (2006), no.~4, 439--561.
+
+\bibitem[LPS]{ref1}
+A.~Lubotzky, R.~Phillips, and P.~Sarnak, \emph{Ramanujan graphs}, Combinatorica
+  \textbf{8}, no.~3, 261--277.
+
+\bibitem[Lub]{Lubotzky_expandergraphs}
+Alexander Lubotzky, \emph{Expander graphs in pure and applied mathematics},
+  Bull. Amer. Math. Soc. (N.S, 2012.
+
+\bibitem[Sar90]{sarnak1990some}
+P.~Sarnak, \emph{Some applications of modular forms}, Cambridge Studies in
+  Applied Ecology and Resource Management, Cambridge University Press, 1990.
+
+\bibitem[Ser93]{Serre:1993}
+Jean-Pierre Serre, \emph{A course in arithmetic}, Springer, 1993.
+
+\end{thebibliography}

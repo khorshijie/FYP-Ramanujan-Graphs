@@ -2,6 +2,7 @@ import numpy
 from finitefield.finitefield import FiniteField
 from finitefield.polynomial import *
 from finitefield.modp import *
+from igraph import *
 
 class Quarternion():
 	def __init__(self, z, i, j, k):
@@ -84,7 +85,7 @@ def get_spq(p, q):
 	FFQq = FiniteFieldQuarternion(Fq)
 	Spq = []
 	for quar in Sp:
-		Spq.append(FFQq.convert_to_ffq(quar).to_matrix())
+		Spq.append(embed_into_pgl2p(FFQq.convert_to_ffq(quar).to_matrix(), q))
 	return Spq
 
 def get_gl2p(p):
@@ -98,5 +99,97 @@ def get_gl2p(p):
 						gl2p.append(numpy.matrix([[FFp(i), FFp(j)], [FFp(k),FFp(l)]]))
 	return gl2p
 
-def drawXpq(p,q):
-	
+def get_sl2p(p):
+	gl2p = []
+	FFp = FiniteField(p)
+	for i in range(p):
+		for j in range(p):
+			for k in range(p):
+				for l in range(p):
+					if (i * l - k * j) % p == 1:
+						gl2p.append(numpy.matrix([[FFp(i), FFp(j)], [FFp(k),FFp(l)]]))
+	return gl2p
+
+def get_psl2p(p):
+	sl2p = get_sl2p(p)
+	return [x for x in sl2p if numpy.array_equal(x, embed_into_psl2p(x, p))]
+
+def get_pgl2p(p):
+	gl2p = get_gl2p(p)
+	return [x for x in gl2p if (numpy.array_equal(x,embed_into_pgl2p(x, p)))]
+
+def embed_into_pgl2p(mat, p):
+	FFp = FiniteField(p)
+	inv = FFp(1)
+	if mat[0,0] != FFp(0):
+		inv = inv / mat[0,0]		
+	else:
+		inv = inv / mat[0,1]
+	diag = numpy.matrix([[inv, FFp(0)], [FFp(0), inv]])
+	return diag * mat	
+
+def embed_into_psl2p(mat, p):
+	FFp = FiniteField(p)
+	diag = numpy.matrix([[FFp(-1), FFp(0)], [FFp(0), FFp(-1)]])
+	if mat[0,0] != FFp(0):
+		if mat[0,0] > FFp((p-1)/2):
+			return diag * mat
+		else :
+			return mat
+	else : 
+		if mat[0,1] > FFp((p-1)/2):
+			return diag * mat
+		else :
+			return mat
+
+def legendre(p,q):
+	if p % q == 0:
+		return 0
+	elif p == 1:
+		return 1
+	elif p > q:
+		return legendre(p % q, q)
+	else:
+		exp = (p-1)*(q-1)/4
+		if exp %2 == 1:
+			return legendre(q, p)
+		else : 
+			return -legendre(q,p)
+
+def draw_Xpq(p, q):
+	Spq = get_spq(p,q)
+	mat_to_int = {}
+	int_to_mat = {}
+	if(legendre(p, q) == 1):
+		psl2q = get_psl2p(q)
+		edges = []
+		for x in xrange(len(psl2q)):
+			for op in Spq:
+				product = embed_into_psl2p(psl2q[x] * op, q)
+				edges.append((x, find_matrix_list(psl2q, product)))
+		g = Graph()
+		g.add_vertices(len(psl2q))
+		g.add_edges(edges)
+		layout = g.layout("drl")
+		plot(g, layout = layout)
+	else :
+		pgl2q = get_pgl2p(q)
+		edges = []
+		for x in xrange(len(pgl2q)):
+			for op in Spq:
+				product = embed_into_pgl2p(pgl2q[x] * op, q)
+				edges.append((x, find_matrix_list(pgl2q, product)))
+		g = Graph()
+		g.add_vertices(len(pgl2q))
+		g.add_edges(edges)
+		layout = g.layout("drl")
+		plot(g, layout = layout)
+
+def find_matrix_list(lst, x):
+	cnt = 0
+	for item in lst:
+		if numpy.array_equal(item, x):
+			return cnt
+		else:
+			cnt = cnt + 1
+	return cnt

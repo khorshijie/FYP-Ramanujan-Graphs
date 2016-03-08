@@ -29,13 +29,9 @@ def main():
 	units.append(Quarternion(0,0,0,-1))
 
 	gl2p = get_gl2p(3)
-	for mat in gl2p:
-		print mat
 	print len(gl2p)
 
-	s53 = get_spq(5, 3)
-	for q in s53:
-		print q
+	draw_Xpq(5, 3)
 
 if __name__ == '__main__':
 	main()
